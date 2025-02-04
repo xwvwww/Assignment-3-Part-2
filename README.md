@@ -3,26 +3,29 @@
 
 ## Overview
 
-This project implements an ERC20 token named AITU_SE2315_AlmenAlnur using Solidity.It includes additional features such as transaction logging, sender and receiver retrieval, and event emission.
+This project implements an ERC20 token named AITU_SE2315_AlmenAlnur using Solidity.It includes features such as User Authentication and Wallet Integration, Token Balance Display, AI Model Listings, Purchase Flow.
 
-The smart contract is developed and tested using Solidity, Hardhat, VS Code.
+The smart contract is developed and tested using Solidity, Hardhat, VS Code and Remix IDE (To get ABI and contractadress).
 
 ### Features
-- **ERC20 Standard Token**
-- **Initial Supply of 2000 Tokens**
-- **Transaction Logging with Events**
-- **Retrieve Sender & Receiver Addresses**
-- **Get Block Timestamp of Latest Transaction**
-- **Full Hardhat Test Coverage**
+- **User Authentication and Wallet Integration**
+- **Token Balance Display**
+- **AI Model Listings**
+- **Purchase Flow**
 
 ## Project Structure
 ``` plaintext
 📦 AITU_SE2315_AlmenAlnur 
  ┣ 📂 contracts 
- ┃ ┗ 📜 AITU_SE2315_AlmenAlnur.sol  # ERC20 Token Contract 
+ ┃ ┗ 📜 AITU_SE2315_AlmenAlnur.sol  # ERC20 Token Contract
+ ┃ ┗ 📜 AIMarketplace.sol # Market Place Contract
  ┣ 📂 test 
  ┃ ┣ 📜 AITU_SE2315_AlmenAlnur.js  # Tests for Initial Contract 
- ┃ ┗ 📜 AITU_SE2315_AlmenAlnur_Modified.js  # Tests for Modified Contract 
+ ┃ ┗ 📜 AITU_SE2315_AlmenAlnur_Modified.js  # Tests for Modified Contract
+ ┣ 📂 frontend
+ ┃ ┗ 📜 app.js
+ ┃ ┗ 📜 index,html
+ ┃ ┗ 📜 style.css
  ┣ 📜 hardhat.config.js  # Hardhat Configuration
  ┣ 📜 package.json  # Dependencies 
  ┣ 📜 README.md  # Project Documentation 
@@ -42,6 +45,11 @@ The smart contract is developed and tested using Solidity, Hardhat, VS Code.
    ```bash
    npm install]
    ```
+ 3. **Install web3**:
+    Install web3 packages
+    ```bash
+    npm install web3
+    ```
 
 3. **Compile the Smart Contract**:
    ```bash
@@ -56,9 +64,8 @@ The smart contract is developed and tested using Solidity, Hardhat, VS Code.
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ## References
-1. [Hardhat Tutorial](https://docs.web3js.org/]https://hardhat.org/tutorial)
-2. [Hardhat Testing Contracts](https://hardhat.org/tutorial/testing-contracts)
-3. [Guide](https://hardhat.org/hardhat-runner/docs/guides/test-contracts)
+1. [Connecting to Metamask with Vanilla JS](https://docs.web3js.org/guides/dapps/metamask-vanilla/)
+2. [Openzepellin Wizard](https://wizard.openzeppelin.com/)
 
 
 
