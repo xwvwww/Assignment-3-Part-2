@@ -3,7 +3,7 @@
 
 ## Overview
 
-This project implements an ERC20 token named AITU_SE2315_AlmenAlnur using Solidity.It includes features such as User Authentication and Wallet Integration, Token Balance Display, AI Model Listings, Purchase Flow.
+This project implements an ERC20 token AIMarketplace named AITU_SE2315_AlmenAlnur using Solidity.It includes features such as User Authentication and Wallet Integration, Token Balance Display, AI Model Listings, Purchase Flow.
 
 The smart contract is developed and tested using Solidity, Hardhat, VS Code and Remix IDE (To get ABI and contractadress).
 
