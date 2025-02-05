@@ -36,7 +36,7 @@ The smart contract is developed and tested using Solidity, Hardhat, VS Code.
 2. **Install dependencies**:
    Install Node.js packages
    ```bash
-   npm install]
+   npm install
    ```
 3. **Compile the Smart Contract**:
    ```bash
