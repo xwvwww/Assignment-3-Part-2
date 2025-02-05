@@ -1,51 +1,57 @@
+// Aitu_SE2315_AlmenAlnur-test.js
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("AITU_SE2315_AlmenAlnur_Modified", function () {
-    let Token, token, owner, addr1, addr2;
+describe("Aitu_SE2315_AlmenAlnur Contract", function () {
+  let owner, addr1, addr2, contract;
 
-    beforeEach(async function () {
-        [owner, addr1, addr2] = await ethers.getSigners();
+  beforeEach(async function () {
+    [owner, addr1, addr2] = await ethers.getSigners();
+    const Aitu_SE2315_AlmenAlnur = await ethers.getContractFactory("Aitu_SE2315_AlmenAlnur");
+    contract = await Aitu_SE2315_AlmenAlnur.deploy(owner.address);
+  });
 
-        // Deploy the contract with `owner` as the contract owner
-        Token = await ethers.getContractFactory("AITU_SE2315_AlmenAlnur");
-        token = await Token.deploy(owner.address);
-        await token.waitForDeployment();
-    });
+  it("Should deploy the contract and set the owner correctly", async function () {
+    expect(await contract.owner()).to.equal(owner.address);
+  });
 
-    it("Should set the correct contract owner", async function () {
-        expect(await token.contractOwner()).to.equal(owner.address);
-    });
+  it("Should mint the initial tokens to the owner address", async function () {
+    const initialBalance = await contract.balanceOf(owner.address);
+    const expectedBalance = ethers.parseUnits("2000", 18); // Fix: Proper BigNumber conversion
+    expect(initialBalance).to.equal(expectedBalance);
+  });
 
-    it("Should emit TransactionDetails event on transfer", async function () {
-        const transferAmount = ethers.parseUnits("50", 18);
+  it("Should allow querying of the sender address", async function () {
+    const sender = await contract.connect(addr1).getTransactionSender(); // Fix: Call from a different account
+    expect(sender).to.equal(addr1.address);
+  });
 
-        // Ensure sender has enough balance
-        await token.transfer(addr1.address, transferAmount);
+  it("Should allow querying of the block timestamp", async function () {
+    const timestamp = await contract.getBlockTimestamp();
+    expect(timestamp).to.be.a('bigint'); // Fix: Use bigint instead of number
+    expect(timestamp).to.be.greaterThan(0n);
+  });
 
-        // Perform transfer and capture transaction receipt
-        const tx = await token.connect(addr1).transferWithDetails(addr2.address, transferAmount);
-        const receipt = await tx.wait();
+  it("Should allow querying of the transaction receiver address", async function () {
+    const receiver = await contract.getTransactionReceiver(addr1.address);
+    expect(receiver).to.equal(addr1.address);
+  });
 
-        // Extract event logs
-        const event = receipt.logs.find(log => log.eventName === "TransactionDetails");
-        expect(event).to.not.be.undefined; // Ensure event was emitted
+  it("Should return a human-readable timestamp of the latest transaction", async function () {
+    const humanReadableTimestamp = await contract.getLatestTransactionTimestamp();
+    console.log("Latest Transaction Timestamp:", humanReadableTimestamp); // Debugging output
+    expect(humanReadableTimestamp).to.be.a('string');
+    expect(humanReadableTimestamp.length).to.be.greaterThan(5); // Ensure it’s not empty
+    expect(humanReadableTimestamp).to.include("years");
+});
 
-        // Extract event args
-        const { sender, receiver, amount, timestamp } = event.args;
 
-        // Assert sender, receiver, and amount (ignore exact timestamp)
-        expect(sender).to.equal(addr1.address);
-        expect(receiver).to.equal(addr2.address);
-        expect(amount).to.equal(transferAmount);
-        expect(timestamp).to.be.a("bigint"); // Ensure it's a valid timestamp
-    });
+it("Should correctly convert the timestamp to a human-readable format", async function () {
+  const timestamp = 1672531200; // Example timestamp (Jan 1, 2023)
+  const humanReadableDate = await contract.convertTimestampToDate(timestamp);
+  console.log("Converted Timestamp:", humanReadableDate); // Debugging output
+  expect(humanReadableDate).to.be.a('string');
+  expect(humanReadableDate).to.include("years"); // More flexible check
+});
 
-    it("Should fail to transfer tokens if balance is insufficient", async function () {
-        const largeAmount = ethers.parseUnits("5000", 18); // More than initial supply
-
-        // Try transferring more than balance and check for revert
-        await expect(token.connect(addr1).transferWithDetails(addr2.address, largeAmount))
-            .to.be.reverted; // Allow generic revert handling
-    });
 });
